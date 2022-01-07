@@ -41,11 +41,14 @@ public class CodeGenerator {
 
     public static void main(String[] args) {
 
+        String model = "product";
+        String modelPath = "/product_service";
         //model mapper路径
-        String packageConfigPath = "com.ssy.project.order";
+
+        String packageConfigPath =  String.format("com.ssy.project.%s",model);
         //xml生成路径
-        String xmlPackageConfigPath = "com.ssy.project.order.mapper";
-        String xmlModelPath = "com/ssy/project/order/mapper/";
+        String xmlPackageConfigPath = String.format("com.ssy.project.%s.mapper",model);
+        String xmlModelPath =  String.format("com/ssy/project/%s/mapper/",model);
 
 
 
@@ -54,7 +57,7 @@ public class CodeGenerator {
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
-        String projectPath = System.getProperty("user.dir").concat("/order_service/");
+        String projectPath = System.getProperty("user.dir").concat(modelPath);
         gc.setOutputDir(projectPath + "/src/main/java");
         gc.setAuthor("LiJun");
         gc.setOpen(false);
@@ -118,7 +121,7 @@ public class CodeGenerator {
         mpg.setTemplate(templateConfig);
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
-        strategy.setInclude("orders");
+        strategy.setInclude("products");
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setEntityLombokModel(true);

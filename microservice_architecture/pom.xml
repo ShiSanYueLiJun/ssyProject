@@ -19,8 +19,9 @@
         <module>order_service</module>
         <module>product_service</module>
         <module>example_service</module>
+        <module>logistics_service</module>
+        <module>points_service</module>
     </modules>
-
 
 
     <!--定义版本号-->
@@ -33,6 +34,7 @@
         <lombok.version>1.18.22</lombok.version>
         <mybatis.plus.generator.version>3.4.1</mybatis.plus.generator.version>
         <freemarker.version>2.3.31</freemarker.version>
+        <json.version>1.2.79</json.version>
     </properties>
 
     <!--维护依赖-->
@@ -106,6 +108,25 @@
                 <groupId>org.freemarker</groupId>
                 <artifactId>freemarker</artifactId>
                 <version>${freemarker.version}</version>
+            </dependency>
+
+            <!--        json-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${json.version}</version>
+            </dependency>
+            <!--            nacos服务注册与发现-->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+                <version>${spring.cloud.alibaba.version}</version>
+            </dependency>
+            <!--            nacos配置管理管理-->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+                <version>${spring.cloud.alibaba.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

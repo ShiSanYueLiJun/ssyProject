@@ -1,0 +1,16 @@
+# 注意：配置文件必须是bootstrap.properties或者bootstrap.yml，如果配置application.properties或者application.yml会导致加载不到配置
+server:
+  port: 1300
+spring:
+  application:
+    name: order-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      config:
+        server-addr: 127.0.0.1:8848 #指定配置中心地址
+        file-extension: yaml #指定nacos配置中心的文件扩展名，默认为properties。支持：TEXT JSON XML YAML HTML Properties
+  security:
+    basic:
+      enabled: false
