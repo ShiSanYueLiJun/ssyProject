@@ -35,7 +35,7 @@ public class BaseModel implements Serializable {
     /**
      * 修改时间
      */
-    @TableField(value = "gmt_modified",fill = FieldFill.INSERT)
+    @TableField(value = "gmt_modified",fill = FieldFill.UPDATE)
     private Date gmtModified;
 
 

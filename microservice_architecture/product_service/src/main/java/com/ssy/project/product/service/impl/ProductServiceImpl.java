@@ -17,7 +17,15 @@ public class ProductServiceImpl implements ProductService {
     ProductRepository productRepository;
 
     @Override
-    public Boolean savaProduct(Products products) {
-        return productRepository.saveOrUpdateConstruct(products);
+    public Boolean deductStock(Products products) {
+        Products product = productRepository.selectById(products.getId());
+        if(product.getStock()<=0){
+            throw new RuntimeException("库存不足!");
+        }
+        if(product.getStock()<products.getStock()){
+            throw new RuntimeException("库存不足,请减少购买数量!");
+        }
+        product.setStock(product.getStock()-products.getStock());
+        return productRepository.saveOrUpdateConstruct(product);
     }
 }

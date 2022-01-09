@@ -1,61 +1,21 @@
+# 注意：配置文件必须是bootstrap.properties或者bootstrap.yml，如果配置application.properties或者application.yml会导致加载不到配置
 server:
   port: 1300
-#数据源
 spring:
+  #  profiles:
+  #    active: dev
   application:
     name: order-service
   cloud:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
-  security:
-    basic:
-      enabled: false
-  datasource:
-    url: jdbc:mysql://127.0.0.1:3306/ssy_project?useSSL=false&serverTimezone=UTC
-    username: root
-    password: root
-    driver-class-name: com.mysql.jdbc.Driver
-    druid:
-      # 初始化时建立物理连接的个数。初始化发生在显示调用init方法，或者第一次getConnection时
-      initialSize: 1
-      # 最小连接池数量
-      minIdle: 1
-      # 最大连接池数量
-      maxActive: 10
-      # 配置获取连接等待超时的时间
-      maxWait: 10000
-      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
-      timeBetweenEvictionRunsMillis: 60000
-      # 配置一个连接在池中最小生存的时间，单位是毫秒
-      minEvictableIdleTimeMillis: 300000
-      # 验证连接有效与否的SQL，不同的数据配置不同
-      validationQuery: select 1
-      # 建议配置为true，不影响性能，并且保证安全性。
-      # 申请连接的时候检测，如果空闲时间大于
-      # timeBetweenEvictionRunsMillis，
-      # 执行validationQuery检测连接是否有效。
-      testWhileIdle: true
-      # 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
-      # 这里建议配置为TRUE，防止取到的连接不可用
-      testOnBorrow: true
-      # 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
-      testOnReturn: false
-      # 是否缓存preparedStatement，也就是PSCache。
-      # PSCache对支持游标的数据库性能提升巨大，比如说oracle。
-      # 在mysql5.5以下的版本中没有PSCache功能，建议关闭掉。
-      # 作者在5.5版本中使用PSCache，通过监控界面发现PSCache有缓存命中率记录，
-      # 该应该是支持PSCache。
-      # 打开PSCache，并且指定每个连接上PSCache的大小
-      poolPreparedStatements: true
-      maxPoolPreparedStatementPerConnectionSize: 20
-      # 属性类型是字符串，通过别名的方式配置扩展插件，
-      # 常用的插件有：
-      # 监控统计用的filter:stat
-      # 日志用的filter:log4j
-      # 防御sql注入的filter:wall
-      filters: stat
-
+      config:
+        server-addr: 127.0.0.1:8848 #指定配置中心地址
+        file-extension: yaml #指定nacos配置中心的文件扩展名，默认为properties。支持：TEXT JSON XML YAML HTML Properties
+    sentinel:
+      transport:
+        dashboard: localhost:8080 #配置sentinel控制地址
 # ====================MybatisPlus====================
 mybatis-plus:
   # 如果是放在src/main/java目录下 classpath:/com/yourpackage/*/mapper/*Mapper.xml
@@ -90,3 +50,11 @@ mybatis-plus:
     jdbc-type-for-null: 'null'
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     database-id: mysql
+feign:
+  client:
+    config:
+      default:
+        connect-timeout: 60000 #请求连接的超时时间，默认时间为1秒
+        read-timeout: 30000 #请求处理的超时时间
+  sentinel:
+    enabled: true #开启sentinel对Feign的支持

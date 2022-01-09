@@ -1,5 +1,6 @@
 package com.ssy.project.order.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.ssy.project.order.model.Orders;
 
 /**
@@ -15,5 +16,10 @@ public interface OrdersService {
      */
     public Orders getById(Long id);
 
-
+    /**
+     * 下单
+     * @param jsonObject
+     * @return
+     */
+    public Boolean placeAnOrder(JSONObject jsonObject);
 }

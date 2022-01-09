@@ -1,16 +1,20 @@
 server:
-  port: 1301
+  port: 1305
 #数据源
 spring:
   application:
     name: product-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
   security:
     basic:
       enabled: false
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/ssy_project?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://127.0.0.1:3306/ssy_project?useSSL=false&serverTimezone=CTT
     username: root
-    password: root
+    password: ssy
     driver-class-name: com.mysql.jdbc.Driver
     druid:
       # 初始化时建立物理连接的个数。初始化发生在显示调用init方法，或者第一次getConnection时

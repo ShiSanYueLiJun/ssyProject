@@ -35,6 +35,7 @@
         <mybatis.plus.generator.version>3.4.1</mybatis.plus.generator.version>
         <freemarker.version>2.3.31</freemarker.version>
         <json.version>1.2.79</json.version>
+        <openfeign.version>3.1.0</openfeign.version>
     </properties>
 
     <!--维护依赖-->
@@ -67,6 +68,16 @@
                 <version>${spring.cloud.alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-openfeign</artifactId>
+                <version>${spring.cloud.alibaba.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+                <version>${spring.cloud.alibaba.version}</version>
             </dependency>
             <!--mybatis-plus自动的维护了mybatis以及mybatis-spring的依赖，
             在springboot中这三者不能同时的出现，避免版本的冲突，表示：跳进过这个坑-->
@@ -128,6 +139,14 @@
                 <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
                 <version>${spring.cloud.alibaba.version}</version>
             </dependency>
+            <!--            sentinel持久化-->
+<!--            <dependency>-->
+<!--                <groupId>com.alibaba.csp</groupId>-->
+<!--                <artifactId>sentinel-datasource-nacos</artifactId>-->
+<!--                <version>1.8.3</version>-->
+<!--            </dependency>-->
+
+
         </dependencies>
     </dependencyManagement>
 

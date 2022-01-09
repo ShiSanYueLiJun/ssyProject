@@ -47,7 +47,8 @@ public class MybatisObjectHandler extends DefaultSqlInjector implements MetaObje
     public void insertFill(MetaObject metaObject) {
         //自动填充创建时间
         this.strictInsertFill(metaObject,"gmtCreate", Date.class,new Date());
-
+        //逻辑字段默认有效
+        this.strictInsertFill(metaObject,"valid", Integer.class,1);
     }
 
     @Override

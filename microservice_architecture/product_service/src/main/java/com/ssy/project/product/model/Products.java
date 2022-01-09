@@ -2,6 +2,7 @@ package com.ssy.project.product.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 /**
  * <p>
@@ -12,7 +13,8 @@ import lombok.EqualsAndHashCode;
  * @since 2022-01-07
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain  =true)
 public class Products extends BaseModel{
 
     /**

@@ -9,11 +9,11 @@ import com.ssy.project.product.model.Products;
 public interface ProductService {
 
     /**
-     * 保存产品
+     * 减少库存
      * @param products
      * @return
      */
-    public Boolean savaProduct(Products products);
+    public Boolean deductStock(Products products);
 
 
 }

@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
 import com.baomidou.mybatisplus.extension.injector.methods.InsertBatchSomeColumn;
 import com.baomidou.mybatisplus.extension.injector.methods.LogicDeleteByIdWithFill;
 import org.apache.ibatis.reflection.MetaObject;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Configuration;
 
 import java.lang.reflect.Field;
@@ -45,7 +46,8 @@ public class MybatisObjectHandler extends DefaultSqlInjector implements MetaObje
     public void insertFill(MetaObject metaObject) {
         //自动填充创建时间
         this.strictInsertFill(metaObject,"gmtCreate", Date.class,new Date());
-
+        //逻辑字段默认有效
+        this.strictInsertFill(metaObject,"valid", Integer.class,1);
     }
 
     @Override

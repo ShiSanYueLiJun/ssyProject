@@ -5,10 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.ssy.project.product.model.Products;
 import com.ssy.project.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author LiJun
@@ -21,9 +18,15 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
-    @PutMapping("/savaProduct/{product}")
-    public Boolean savaProduct(@PathVariable("product") JSONObject jsonObject){
-        Products products = JSON.parseObject(jsonObject.toJSONString(), Products.class);
-        return productService.savaProduct(products);
+    /**
+     * 减少库存
+     * @param jsonObject
+     * @return
+     */
+    @PostMapping("/deductStock")
+    public Boolean deductStock(@RequestBody JSONObject jsonObject){
+        Products products = new Products();
+        products.setStock(jsonObject.getInteger("number")).setId(jsonObject.getLong("pid"));
+        return productService.deductStock(products);
     }
 }

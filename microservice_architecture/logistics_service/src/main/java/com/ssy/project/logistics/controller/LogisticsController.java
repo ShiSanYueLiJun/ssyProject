@@ -1,10 +1,13 @@
 package com.ssy.project.logistics.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPObject;
 import com.ssy.project.logistics.model.Logistics;
 import com.ssy.project.logistics.service.LogisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,9 +22,9 @@ public class LogisticsController {
     @Autowired
     LogisticsService logisticsService;
 
-    @RequestMapping("/savaLogistics")
-    public Boolean savaLogistics(JSONPObject jsonpObject){
-        Logistics logistics = JSON.parseObject(jsonpObject.toJSONString(), Logistics.class);
+    @PostMapping("/saveLogistics")
+    public Boolean saveLogistics(@RequestBody JSONObject jsonObject){
+        Logistics logistics = JSON.parseObject(jsonObject.toJSONString(), Logistics.class);
         return  logisticsService.save(logistics);
 
     }
