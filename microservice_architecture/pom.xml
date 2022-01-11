@@ -21,11 +21,14 @@
         <module>example_service</module>
         <module>logistics_service</module>
         <module>points_service</module>
+        <module>gateway_service</module>
+        <module>common</module>
     </modules>
 
 
     <!--定义版本号-->
     <properties>
+<!--        <version>2.2.5.RELEASE</version>-->
         <spring.boot.version>2.2.5.RELEASE</spring.boot.version>
         <spring.cloud.version>Hoxton.SR6</spring.cloud.version>
         <spring.cloud.alibaba.version>2.2.1.RELEASE</spring.cloud.alibaba.version>
@@ -36,10 +39,12 @@
         <freemarker.version>2.3.31</freemarker.version>
         <json.version>1.2.79</json.version>
         <openfeign.version>3.1.0</openfeign.version>
+        <sentinel.datasource.nacos.version>1.8.3</sentinel.datasource.nacos.version>
     </properties>
 
     <!--维护依赖-->
     <dependencyManagement>
+
         <dependencies>
             <!-- Spring Boot -->
             <dependency>
@@ -50,6 +55,11 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-actuator</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
 
@@ -69,11 +79,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!--            openfeign 整合SpringCloud-->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-openfeign</artifactId>
                 <version>${spring.cloud.alibaba.version}</version>
             </dependency>
+            <!-- sentinel 整合spring cloud alibaba -->
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
@@ -139,14 +151,23 @@
                 <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
                 <version>${spring.cloud.alibaba.version}</version>
             </dependency>
-            <!--            sentinel持久化-->
+            <!--                sentinel持久化-->
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-datasource-nacos</artifactId>
+                <version>${sentinel.datasource.nacos.version}</version>
+            </dependency>
+            <!--                    网关-->
 <!--            <dependency>-->
-<!--                <groupId>com.alibaba.csp</groupId>-->
-<!--                <artifactId>sentinel-datasource-nacos</artifactId>-->
-<!--                <version>1.8.3</version>-->
+<!--                <groupId>com.alibaba.cloud</groupId>-->
+<!--                <artifactId>spring-cloud-alibaba-sentinel-gateway</artifactId>-->
+<!--                <version>${spring.cloud.alibaba.version}</version>-->
 <!--            </dependency>-->
-
-
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-gateway</artifactId>
+                <version>${spring.cloud.alibaba.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
