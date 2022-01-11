@@ -5,17 +5,23 @@ import com.alibaba.fastjson.JSONObject;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
 import org.springframework.stereotype.Component;
+import org.springframework.util.MultiValueMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.server.ServerWebExchange;
+import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 
 /**
  * @author LiJun
@@ -32,8 +38,10 @@ public class RequestBodyFilter implements GlobalFilter, Ordered {
         ServerHttpRequest request = exchange.getRequest();
         String method = request.getMethodValue();
         String contentType = request.getHeaders().getFirst("Content-Type");
-
-
+        MultiValueMap<String, String> queryParams = request.getQueryParams();
+        StringBuilder query = new StringBuilder();
+        //获取请求uri的请求参数（GET请求参数通过拼接key=value形式进行传参）
+        String originalQuery = request.getURI().getRawQuery();
         if ("POST".equals(method)) {
             return DataBufferUtils.join(exchange.getRequest().getBody())
                     .flatMap(dataBuffer -> {
@@ -41,20 +49,21 @@ public class RequestBodyFilter implements GlobalFilter, Ordered {
                         dataBuffer.read(bytes);
                         try {
                             String bodyString = new String(bytes, "utf-8");
-                            log.info(bodyString);//打印请求参数
+                            log.info("修改前"+bodyString);//打印请求参数
                             JSONObject jsonObject = JSON.parseObject(bodyString);
                             jsonObject.put("ssyCode",123);
-                            System.out.println(exchange.getAttributes());
-                            exchange.getAttributes().put("POST_BODY", jsonObject);
-                            System.out.println(exchange.getAttributes());
+                            bytes= jsonObject.toString().getBytes();
+                            String bodyStringNew = new String(bytes, "utf-8");
+                            log.info("修改后"+bodyStringNew);//打印请求参数
                         } catch (UnsupportedEncodingException e) {
                             e.printStackTrace();
                         }
                         //释放内存
                         DataBufferUtils.release(dataBuffer);
+                        byte[] finalBytes = bytes;
                         Flux<DataBuffer> cachedFlux = Flux.defer(() -> {
                             DataBuffer buffer = exchange.getResponse().bufferFactory()
-                                    .wrap(bytes);
+                                    .wrap(finalBytes);
                             return Mono.just(buffer);
                         });
 

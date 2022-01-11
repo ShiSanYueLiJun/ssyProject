@@ -5,6 +5,8 @@ spring:
     name: gateway-service
   cloud:
     sentinel:
+      filter:
+        enabled: false
       # 服务启动直接建立心跳连接
       eager: true
 #      scg:
