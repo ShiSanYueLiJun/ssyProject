@@ -7,9 +7,15 @@ spring:
   application:
     name: order-service
   cloud:
+#    alibaba:
+#      seata:
+#        #自定义事务组名称需要与seata-server中的对应，也就是file.conf文件中service中vgroup_mapping.fsp_tx_group值
+#        tx-service-group: fsp_tx_group
     nacos:
       discovery:
         server-addr: localhost:8848
+        username: nacos                            #nacos账号密码
+        password: nacos
       config:
         server-addr: localhost:8848 #指定配置中心地址
         file-extension: yaml #指定nacos配置中心的文件扩展名，默认为properties。支持：TEXT JSON XML YAML HTML Properties
@@ -135,8 +141,38 @@ feign:
     enabled: true #开启sentinel对Feign的支持
 
 #暴露的健康检查服务端点
-#management:
-#  endpoint:
-#    web:
-#      exposure:
-#        include: '*'
+management:
+  endpoint:
+    web:
+      exposure:
+        include: '*'
+
+logging:
+  level:
+    io:
+      seata: info
+
+seata:
+  application-id: order-service
+  tx-service-group: default_tx_group #需要格注意要与nacos对应的一样
+  registry:
+    type: nacos
+    nacos:
+      application: seata-server
+      namespace:
+      server-addr: ${spring.cloud.nacos.discovery.server-addr}
+      username: ${spring.cloud.nacos.discovery.username}
+      password: ${spring.cloud.nacos.discovery.password}
+      group: SEATA_GROUP
+  config:
+    type: nacos
+    nacos:
+      namespace:
+      server-addr: ${spring.cloud.nacos.discovery.server-addr}
+      username: ${spring.cloud.nacos.discovery.username}
+      password: ${spring.cloud.nacos.discovery.password}
+      group: SEATA_GROUP
+#      namespace: 0af6e97b-a684-4647-b696-7c6d42aecce7   #2.2中配置所在命名空间ID，入未配置 默认public空间
+  service:
+    vgroup-mapping:
+      default_tx_group: default		#  default 这里要特别注意和nacos中配置的要保持一直

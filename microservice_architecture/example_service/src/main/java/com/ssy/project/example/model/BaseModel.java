@@ -24,7 +24,7 @@ public class BaseModel implements Serializable {
     private Long id;
 
     @TableField(value = "is_valid",fill = FieldFill.INSERT_UPDATE)
-    private Integer valid;
+    private Boolean valid;
 
     /**
      * 创建时间

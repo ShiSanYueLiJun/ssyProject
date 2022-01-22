@@ -7,12 +7,10 @@ import com.ssy.project.order.feign.ProductFeign;
 import com.ssy.project.order.model.Orders;
 import com.ssy.project.order.repository.OrdersRepository;
 import com.ssy.project.order.service.OrdersService;
+import io.seata.spring.annotation.GlobalTransactional;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 /**
  * @author LiJun
@@ -40,12 +38,13 @@ public class OrdersServiceImpl implements OrdersService {
     return ordersRepository.selectById(id);
     }
 
+    @GlobalTransactional
     @Override
     public Boolean placeAnOrder(JSONObject jsonObject) {
         Orders orders = new Orders();
         orders.setPid(jsonObject.getLong("pid"));
         orders.setUid(jsonObject.getString("uid"));
-        try {
+//        try {
             //下单
             ordersRepository.saveOrUpdateConstruct(orders);
             //库存
@@ -61,9 +60,9 @@ public class OrdersServiceImpl implements OrdersService {
             logistics.put("pid",orders.getPid());
             logisticsFeign.saveLogistics(jsonObject);
             return  true;
-        } catch (Exception e) {
-            log.info("下单异常:{}",e);
-        }
-        return false;
+//        } catch (Exception e) {
+//            log.info("下单异常:{}",e);
+//        }
+//        return false;
     }
 }

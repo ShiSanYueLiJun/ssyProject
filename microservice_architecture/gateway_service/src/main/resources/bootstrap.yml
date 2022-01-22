@@ -1,5 +1,6 @@
 server:
   port: 1300
+sentinelAddress: localhost:8848
 spring:
   application:
     name: gateway-service
@@ -26,34 +27,46 @@ spring:
       datasource:
         flow:
           nacos:
-            server-addr: 127.0.0.1:8848
+            server-addr: ${sentinelAddress}
             dataId: ${spring.application.name}-flow-rules
             groupId: SENTINEL_GROUP
             rule-type: flow #限流
         degrade:
           nacos:
-            server-addr: 127.0.0.1:8848
+            server-addr: localhost:8848
             dataId: ${spring.application.name}-degrade-rules
             groupId: SENTINEL_GROUP
             rule-type: degrade #熔断/降级
         system:
           nacos:
-            server-addr: 127.0.0.1:8848
+            server-addr: localhost:8848
             dataId: ${spring.application.name}-system-rules
             groupId: SENTINEL_GROUP
             rule-type: system #系统规则
         authority:
           nacos:
-            server-addr: 127.0.0.1:8848
+            server-addr: localhost:8848
             dataId: ${spring.application.name}-authority-rules
             groupId: SENTINEL_GROUP
             rule-type: authority #授权
         param-flow:
           nacos:
-            server-addr: 127.0.0.1:8848
+            server-addr: localhost:8848
             dataId: ${spring.application.name}-param-flow-rules
             groupId: SENTINEL_GROUP
             rule-type: param-flow #指定参数流/热点规则
+        gateway-flow:
+          nacos:
+            server-addr: localhost:8848
+            dataId: ${spring.application.name}-gateway-flow #在修改的sentinel 源码中定义的规则名
+            groupId: SENTINEL_GROUP
+            rule-type: gw-flow #网关流控
+        param-api:
+          nacos:
+            server-addr: localhost:8848
+            dataId: ${spring.application.name}-gateway-api #在修改的sentinel 源码中定义的规则名
+            groupId: SENTINEL_GROUP
+            rule-type: gw-api-group #网关api
     nacos:
       discovery:
         server-addr: localhost:8848
@@ -67,7 +80,7 @@ spring:
         - id: order-service
           uri: lb://order-service
           predicates:
-            - Path=/order/test/*,/order/placeAnOrder
+            - Path=/order/*
 management:
   endpoints:
     web:
