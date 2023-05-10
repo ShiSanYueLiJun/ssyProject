@@ -90,3 +90,6 @@ mybatis-plus:
     jdbc-type-for-null: 'null'
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     database-id: mysql
+logging:
+  config:
+    classpath: logback-spring.xml

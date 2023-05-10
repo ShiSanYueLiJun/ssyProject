@@ -301,3 +301,12 @@ public class OkHttpUtils {
      * 自定义一个接口回调
      */
     public interface ICallBack {
+
+        void onSuccessful(Call call, String data);
+
+        void onFailure(Call call, String errorMsg);
+
+    }
+
+
+}
